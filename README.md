@@ -1,1 +1,2 @@
-Windows Location Plugin
+# location
+Retrieve location
