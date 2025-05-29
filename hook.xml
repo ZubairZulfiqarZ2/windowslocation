@@ -8,6 +8,6 @@
         <identifier>cd_location</identifier>
         <translation>16000</translation>
         <category>hardware</category>
-        <available>location</available>
+        <available>windows location</available>
     </hook>
 </hookstore>

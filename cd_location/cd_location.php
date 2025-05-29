@@ -24,7 +24,7 @@ if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
 
-$form_name = "location";
+$form_name = "WINDOWSLOCATION";
 $table_name = $form_name;
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
@@ -40,6 +40,7 @@ $list_fields = array(
     'Horizontal Accuracy' => 'HORIZONTALACCURACY',
     'Vertical Accuracy' => 'VERTICALACCURACY',
     'Speed' => 'SPEED'
+    'ISUNKNOWN' => 'ISUNKNOWN'
 );
 
 $list_col_cant_del = $list_fields;

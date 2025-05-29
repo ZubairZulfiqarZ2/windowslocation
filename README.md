@@ -1,2 +1,2 @@
-# location
-Retrieve location
+# windows location
+Retrieve windows location
