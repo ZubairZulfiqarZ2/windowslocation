@@ -20,19 +20,17 @@
 # Date: 05/28/2025
 # Author: Zubair Zulfiqar, adapted from Stéphane PAUTREL
 
+# Load System.Device assembly for GeoCoordinateWatcher
+Add-Type -AssemblyName System.Device
+
 # Check if windowslocation services are supported
-# TODO(ZubairZulfiqarZ2): test it in powershell
 if (-not [System.Device.Location.GeoCoordinateWatcher]::IsSupported) {
     Write-Output "<WINDOWSLOCATION/>" # Location services not supported
     exit
 }
 
-# Load System.Device assembly for GeoCoordinateWatcher
-Add-Type -AssemblyName System.Device
-
 $GeoWatcher = New-Object System.Device.Location.GeoCoordinateWatcher
 
-# TODO(ZubairZulfiqarZ2): test these commands on powershell
 if ($GeoWatcher.Status -eq 'Disabled' -or $GeoWatcher.Status -eq 'NotSupported') {
     Write-Output "<WINDOWSLOCATION/>" # Location services disabled or not supported
     exit
