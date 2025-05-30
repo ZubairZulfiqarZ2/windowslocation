@@ -15,13 +15,13 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Apache::Ocsinventory::Plugins::WINDOWSLOCATION::Map;
+package Apache::Ocsinventory::Plugins::Windowslocation::Map;
 
 use strict;
 
 use Apache::Ocsinventory::Map;
 
-$DATA_MAP{WINDOWSLOCATION} = {
+$DATA_MAP{windowslocation} = {
     mask => 0,
     multi => 0, # Only one location per device
     auto => 1,
@@ -38,6 +38,7 @@ $DATA_MAP{WINDOWSLOCATION} = {
         VERTICALACCURACY => {},
         SPEED => {},
         ISUNKNOWN => {},
+        STATUS => {}
     }
 };
 1;

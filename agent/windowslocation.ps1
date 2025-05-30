@@ -24,19 +24,19 @@
 Add-Type -AssemblyName System.Device
 
 # Check if windowslocation services are supported
-if (-not [System.Device.Location.GeoCoordinateWatcher]::IsSupported) {
-    Write-Output "<WINDOWSLOCATION/>" # Location services not supported
-    exit
-}
+# if (-not [System.Device.Location.GeoCoordinateWatcher]::IsSupported) {
+#     Write-Output "<WINDOWSLOCATION/>" # Location services not supported
+#     exit
+# }
 
 $GeoWatcher = New-Object System.Device.Location.GeoCoordinateWatcher
 
 if ($GeoWatcher.Status -eq 'Disabled' -or $GeoWatcher.Status -eq 'NotSupported') {
-    Write-Output "<WINDOWSLOCATION/>" # Location services disabled or not supported
+    Write-Output "<WINDOWSLOCATION>`n<STATUS>$($GeoWatcher.Status)</STATUS>`n</WINDOWSLOCATION>"
     exit
 }
 
-$timeoutSeconds = 30
+$timeoutSeconds = 3
 $startTime = Get-Date
 
 try {
@@ -51,7 +51,7 @@ catch {
 if ($GeoWatcher.Status -eq 'Initializing') {
     while (($GeoWatcher.Status -eq 'Initializing') -and ($GeoWatcher.Permission -ne 'Denied')) {
         if (((Get-Date) - $startTime).TotalSeconds -ge $timeoutSeconds) {
-            Write-Output "<WINDOWSLOCATION/>" # Timeout reached
+            Write-Output "<WINDOWSLOCATION>`n<STATUS>$($GeoWatcher.Status)</STATUS>`n</WINDOWSLOCATION>" # Timeout reached
             $GeoWatcher.Stop()
             exit
         }
@@ -64,35 +64,32 @@ $outputXml = "<WINDOWSLOCATION/>"
 
 if ($GeoWatcher.Permission -eq 'Denied') {
 	$outputXml = "<WINDOWSLOCATION>`n"
-	$outputXml += "<PERMISSION>Denied</PERMISSION>`n"
+	$outputXml += "  <PERMISSION>$($GeoWatcher.Permission)</PERMISSION>`n"
+    $outputXml += "<STATUS>$($GeoWatcher.Status)</STATUS>`n"
 	$outputXml += "</WINDOWSLOCATION>"
 }
 elseif ($GeoWatcher.Status -eq 'Ready') {
     $location = $GeoWatcher.Position.Location
-    if (-not $location.IsUnknown -and 
-        $location.Latitude -ne $null -and 
-        $location.Longitude -ne $null){
-            
-        $outputXml = "<WINDOWSLOCATION>`n"
-        $outputXml += "<LATITUDE>$($location.Latitude)</LATITUDE>`n"
-        $outputXml += "<LONGITUDE>$($location.Longitude)</LONGITUDE>`n"
-		$outputXml += "  <PERMISSION>Permitted</PERMISSION>`n"
-        $outputXml += "  <ISUNKNOWN>$($location.IsUnknown)</ISUNKNOWN>`n"
-        
-        $altitude = if ($location.Altitude -eq $null -or [double]::IsNaN($location.Altitude)) { "Unknown" } else { $location.Altitude }
-        $outputXml += "<ALTITUDE>$altitude</ALTITUDE>`n"
-        
-        $horizontalAccuracy = if ($location.HorizontalAccuracy -eq $null -or [double]::IsNaN($location.HorizontalAccuracy)) { "Unknown" } else { $location.HorizontalAccuracy }
-        $outputXml += "<HORIZONTALACCURACY>$horizontalAccuracy</HORIZONTALACCURACY>`n"
-        
-        $verticalAccuracy = if ($location.VerticalAccuracy -eq $null -or [double]::IsNaN($location.VerticalAccuracy)) { "Unknown" } else { $location.VerticalAccuracy }
-        $outputXml += "<VERTICALACCURACY>$verticalAccuracy</VERTICALACCURACY>`n"
-        
-        $speed = if ($location.Speed -eq $null -or [double]::IsNaN($location.Speed)) { "Unknown" } else { $location.Speed }
-        $outputXml += "<SPEED>$speed</SPEED>`n"
-        
-        $outputXml += "</WINDOWSLOCATION>"
-    }
+    $outputXml = "<WINDOWSLOCATION>`n"
+    $outputXml += "<LATITUDE>$($location.Latitude)</LATITUDE>`n"
+    $outputXml += "<LONGITUDE>$($location.Longitude)</LONGITUDE>`n"
+    $outputXml += "<STATUS>$($GeoWatcher.Status)</STATUS>`n"
+    $outputXml += "  <PERMISSION>$($GeoWatcher.Permission)</PERMISSION>`n"
+    $outputXml += "  <ISUNKNOWN>$($location.IsUnknown)</ISUNKNOWN>`n"
+    
+    $altitude = if ($location.Altitude -eq $null -or [double]::IsNaN($location.Altitude)) { "Unknown" } else { $location.Altitude }
+    $outputXml += "<ALTITUDE>$altitude</ALTITUDE>`n"
+    
+    $horizontalAccuracy = if ($location.HorizontalAccuracy -eq $null -or [double]::IsNaN($location.HorizontalAccuracy)) { "Unknown" } else { $location.HorizontalAccuracy }
+    $outputXml += "<HORIZONTALACCURACY>$horizontalAccuracy</HORIZONTALACCURACY>`n"
+    
+    $verticalAccuracy = if ($location.VerticalAccuracy -eq $null -or [double]::IsNaN($location.VerticalAccuracy)) { "Unknown" } else { $location.VerticalAccuracy }
+    $outputXml += "<VERTICALACCURACY>$verticalAccuracy</VERTICALACCURACY>`n"
+    
+    $speed = if ($location.Speed -eq $null -or [double]::IsNaN($location.Speed)) { "Unknown" } else { $location.Speed }
+    $outputXml += "<SPEED>$speed</SPEED>`n"
+    
+    $outputXml += "</WINDOWSLOCATION>"
 }else {
     $outputXml = "<WINDOWSLOCATION/>" # Unexpected status
 }

@@ -5,8 +5,8 @@
         <value>fr_FR</value>
     </hook>
     <hook type="cdentry">
-        <identifier>cd_location</identifier>
-        <translation>16000</translation>
+        <identifier>cd_windowslocation</identifier>
+        <translation>192000</translation>
         <category>hardware</category>
         <available>windows location</available>
     </hook>
