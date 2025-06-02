@@ -18,7 +18,7 @@ if (AJAX) {
     $ajax = false;
 }
 
-print_item_header("Device Location");
+print_item_header("Device location");
 
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';

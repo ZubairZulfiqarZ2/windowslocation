@@ -7,7 +7,7 @@
     <hook type="cdentry">
         <identifier>cd_windowslocation</identifier>
         <translation>192000</translation>
-        <category>hardware</category>
+        <category>other</category>
         <available>windows location</available>
     </hook>
 </hookstore>

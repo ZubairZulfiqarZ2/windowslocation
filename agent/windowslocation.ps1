@@ -23,11 +23,6 @@
 # Load System.Device assembly for GeoCoordinateWatcher
 Add-Type -AssemblyName System.Device
 
-# Check if windowslocation services are supported
-# if (-not [System.Device.Location.GeoCoordinateWatcher]::IsSupported) {
-#     Write-Output "<WINDOWSLOCATION/>" # Location services not supported
-#     exit
-# }
 
 $GeoWatcher = New-Object System.Device.Location.GeoCoordinateWatcher
 
