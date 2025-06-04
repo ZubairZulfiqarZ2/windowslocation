@@ -31,9 +31,6 @@ if ($GeoWatcher.Status -eq 'Disabled' -or $GeoWatcher.Status -eq 'NotSupported')
     exit
 }
 
-$timeoutSeconds = 3
-$startTime = Get-Date
-
 try {
     $GeoWatcher.Start()
 }
@@ -42,6 +39,8 @@ catch {
     exit
 }
 
+$timeoutSeconds = 3
+$startTime = Get-Date
 
 if ($GeoWatcher.Status -eq 'Initializing') {
     while (($GeoWatcher.Status -eq 'Initializing') -and ($GeoWatcher.Permission -ne 'Denied')) {
@@ -86,7 +85,10 @@ elseif ($GeoWatcher.Status -eq 'Ready') {
     
     $outputXml += "</WINDOWSLOCATION>"
 }else {
-    $outputXml = "<WINDOWSLOCATION/>" # Unexpected status
+    $outputXml = "<WINDOWSLOCATION>`n"
+	$outputXml += "  <PERMISSION>$($GeoWatcher.Permission)</PERMISSION>`n"
+    $outputXml += "<STATUS>$($GeoWatcher.Status)</STATUS>`n"
+	$outputXml += "</WINDOWSLOCATION>" # Unexpected status
 }
 
 $GeoWatcher.Stop()
