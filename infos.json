@@ -1,0 +1,12 @@
+{
+  "displayName" : "Windows Location",
+  "author" : ["Zubair Zulfiqar"],
+  "contributor" : [],
+  "supportedAgent" : ["Windows"],
+  "version" : "1.0",
+  "licence" : "GPLv2",
+  "description" : {
+    "fr" : "Récupère la localisation de Windows",
+    "en" : "Retrieve windows location"
+  }
+}
